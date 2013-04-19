@@ -5,6 +5,7 @@
 
     <script type="text/javascript" charset="utf-8" src="cordova-2.6.0.js"></script>
     <script type="text/javascript" charset="utf-8">
+	window.onload = Load();
 
     // Wait for Cordova to load
     //
@@ -12,6 +13,9 @@
 
     // Cordova is ready
     //
+	function Load(){
+		onDeviceReady();
+		}
     function onDeviceReady() {
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }
@@ -28,7 +32,8 @@
                             'Heading: '            + position.coords.heading               + '<br />' +
                             'Speed: '              + position.coords.speed                 + '<br />' +
                             'Timestamp: '          +                                   position.timestamp          + '<br />';
-    }
+    document.write(element.innerHTML);
+	}
 
     // onError Callback receives a PositionError object
     //
@@ -41,5 +46,7 @@
   </head>
   <body>
     <p id="geolocation">Finding geolocation...</p>
+
+
   </body>
 </html>
