@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>GPS and map positioning test</title>
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	 <script type="text/javascript" charset="utf-8" src="cordova-2.6.0.js"></script>
+    
     <style type="text/css">
       html { height: 100% }
       body { height: 100%; margin: 0; padding: 0 }
@@ -11,35 +12,21 @@
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuxnQj-y4yhgR6YdHSrIlnZExF5t1ZH1g&sensor=true">
     </script>
-    <script type="text/javascript" charset="utf-8" src="cordova-2.6.0.js"></script>
-    <script type="text/javascript" charset="utf-8">
-	var Coordinates = new Object();
+    <script type="text/javascript">
 	
-	window.onload = Load();
-
-    // Wait for Cordova to load
-    //
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-    // Cordova is ready
-    //
-	function Load(){
-		onDeviceReady();
-		initialize();
-		alert(Coordinates.coords.latitude);
-		//google.maps.event.addDomListener(window, 'load', initialize);
-		}
-		
-    function onDeviceReady() {
+	var Coordenadas = {};
+	Coordenadas.x=0;
+	Coordenadas.y=0;
+	window.onload = Load2();
+	
+	function onDeviceReady() {
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }
-
-    // onSuccess Geolocation
+	 // onSuccess Geolocation
     //
     function onSuccess(position) {
-        var element = document.getElementById('geolocation');
-		
-        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+       var element = document.getElementById('Coordenadas');
+       /* element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
                             'Longitude: '          + position.coords.longitude             + '<br />' +
                             'Altitude: '           + position.coords.altitude              + '<br />' +
                             'Accuracy: '           + position.coords.accuracy              + '<br />' +
@@ -47,7 +34,9 @@
                             'Heading: '            + position.coords.heading               + '<br />' +
                             'Speed: '              + position.coords.speed                 + '<br />' +
                             'Timestamp: '          +                                   position.timestamp          + '<br />';
-		Coordinates=position;
+							*/
+    Coordenadas.x = position.coords.latitude;
+	Coordenadas.y = position.coords.longitude;
 	}
 
     // onError Callback receives a PositionError object
@@ -56,23 +45,31 @@
         alert('code: '    + error.code    + '\n' +
                 'message: ' + error.message + '\n');
     }
-
-    
       function initialize() {
         var mapOptions = {
-		center: new google.maps.LatLng(Coordinates.coords.latitude, Coordinates.coords.longitude),
-          zoom: 8,
+		center: new google.maps.LatLng(Coordenadas.x,Coordenadas.y),
+          zoom: 18,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(document.getElementById("map-canvas"),
             mapOptions);
       }
+	  
+	  function Load2(){
+		onDeviceReady();
+		for (var i=0; i<3; i++)
+		{alert(Coordenadas.x);alert(Coordenadas.y);}
+		google.maps.event.addDomListener(window, 'load', initialize);
+	
+		
+		
+		}
+		
+		// google.maps.event.addDomListener(window, 'load', initialize);
+     
     </script>
   </head>
   <body>
-    <p id="map-canvas">Finding geolocation...</p>
-
-
-  <script type="text/javascript" src="http://debug.phonegap.com/target/target-script-min.js#a0c5b8a2-a861-11e2-9bf7-12313d150a60"></script></body>
-
+    <div id="map-canvas"/>
+  </body>
 </html>
